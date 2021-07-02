@@ -2,13 +2,13 @@
   "name": "footy-app-mysql",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "engines": {
     "node": "12.18.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "node app.js"
   },
   "author": "alex hunter",
   "license": "ISC",
@@ -16,8 +16,5 @@
     "express": "^4.17.1",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.9"
-  },
-  "dependencies": {
-    "dotenv": "^10.0.0"
   }
 }
