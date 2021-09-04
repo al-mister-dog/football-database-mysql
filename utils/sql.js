@@ -9,9 +9,20 @@ const joinTeams = `INNER JOIN teams ON players.teamId = teams.id`;
 function createQuery(selected) {
   let queryString = ''
   for (let i = 0; i < selected.length; i++) {
-    console.log(`${i}: ${selected[i].field}, ${selected[i].value}`);
     if (i === 0) {
       queryString += `SELECT ${name}, ${playerSelection} FROM players ${joinTeams} WHERE ${selected[i].field} = '${selected[i].value}'`
+    } else {
+      queryString += ` AND ${selected[i].field} = '${selected[i].value}'`
+    }
+  }
+  return queryString
+}
+
+function createTeamQuery(selected) {
+  let queryString = ''
+  for (let i = 0; i < selected.length; i++) {
+    if (i === 0) {
+      queryString += `SELECT ${name}, ${teamSelection} FROM players ${joinTeams} WHERE ${selected[i].field} = '${selected[i].value}'`
     } else {
       queryString += ` AND ${selected[i].field} = '${selected[i].value}'`
     }
@@ -28,11 +39,11 @@ exports.getData = (id) => {
 };
 
 exports.filter = (selected, id) => {
-  const queryString = createQuery(selected);
-  console.log(queryString)
   if (id === '') {
+    const queryString = createQuery(selected);
     return `${queryString}`
   } else {
+    const queryString = createTeamQuery(selected);
     return `${queryString} AND teamId = ${id}`
   }
 };
@@ -46,12 +57,13 @@ exports.sort = (field, id, direction) => {
 };
 
 exports.sortFiltered = (selected, fieldToOrderBy, id, direction) => {
-  const queryString = createQuery(selected);
   if (id === '') {
+    const queryString = createQuery(selected);
     return direction ? 
     `${queryString} ORDER BY ${fieldToOrderBy} ASC`:
     `${queryString} ORDER BY ${fieldToOrderBy} DESC`
   } else {
+    const queryString = createTeamQuery(selected);
     return direction ? 
     `${queryString} AND teamId = ${id} ORDER BY ${fieldToOrderBy} ASC`:
     `${queryString} AND teamId = ${id} ORDER BY ${fieldToOrderBy} DESC`
@@ -60,6 +72,7 @@ exports.sortFiltered = (selected, fieldToOrderBy, id, direction) => {
 
 exports.query = (query, res) => db.query(query, (err, result) => { 
   if (err) throw err;
-  console.log({result, query})
+  //console.log({result, query})
+  // console.log(query)
   res.send(result);
 });

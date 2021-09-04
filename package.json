@@ -6,15 +6,23 @@
   "engines": {
     "node": "12.18.3"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "test": "jest --detectOpenHandles",
+    "start": "node index.js"
   },
   "author": "alex hunter",
   "license": "ISC",
   "devDependencies": {
     "express": "^4.17.1",
+    "jest": "^27.1.0",
     "mysql2": "^2.2.5",
-    "nodemon": "^2.0.9"
+    "nodemon": "^2.0.9",
+    "supertest": "^6.1.6"
   }
 }
